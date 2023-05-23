@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "magento-test-env.fullname" . }}-mysql
+  labels:
+    {{- include "magento-test-env.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "magento-test-env.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "magento-test-env.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          {{- include "magento-test-env.resources" . | nindent 10 }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+              subPath: mysql

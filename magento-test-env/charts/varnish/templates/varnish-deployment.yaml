@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "magento-test-env.fullname" . }}-varnish
+  labels:
+    {{- include "magento-test-env.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "magento-test-env.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "magento-test-env.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: varnish
+          image: your-varnish-image:tag
+          ports:
+            - containerPort: 80
+          {{- include "magento-test-env.resources" . | nindent 10 }}
+          env:
+            - name: MAGENTO_BACKEND_HOST
+              value: your-magento-service
+            - name: MAGENTO_BACKEND_PORT
+              value: "80"

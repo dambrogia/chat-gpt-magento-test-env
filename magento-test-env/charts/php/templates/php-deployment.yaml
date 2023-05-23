@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "magento-test-env.fullname" . }}-php
+  labels:
+    {{- include "magento-test-env.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "magento-test-env.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "magento-test-env.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: php
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 80
+          {{- include "magento-test-env.resources" . | nindent 10 }}
