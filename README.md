@@ -76,5 +76,23 @@ This Helm chart provides a starting point for deploying a Magento test environme
 
 For more details on how to customize Helm charts, refer to the [Helm documentation](https://helm.sh/docs/).
 
+### Services
+
+1. **PHP**: The PHP service runs Magento 2, which is a popular e-commerce platform. It hosts the core application code and handles the dynamic content generation for the storefront and admin panel.
+
+2. **Varnish**: Varnish acts as a reverse proxy and caching server, standing in front of Magento 2. It accepts HTTP requests on the standard port and caches the responses from Magento. This helps improve performance by serving cached content directly to clients, reducing the load on the PHP service.
+
+3. **MySQL**: MySQL serves as the main database for Magento 2. It stores and manages the application's data, including product information, customer details, orders, and other essential data. Magento 2 relies on MySQL for data persistence and retrieval.
+
+4. **Elasticsearch**: Elasticsearch is used by Magento 2 as a search engine. It provides fast and efficient search capabilities for the storefront, allowing customers to find products quickly. Elasticsearch enables features like autocomplete, faceted search, and relevancy-based ranking for search results.
+
+5. **Redis (Object Cache)**: Redis is used as an object cache by the Magento 2 PHP service. It helps improve performance by caching frequently accessed data and reducing the need to make expensive database queries. The object cache stores various types of data, such as configuration settings, product information, and blocks of rendered content.
+
+6. **Redis (Session Cache)**: Redis is also used as a session cache by the Magento 2 PHP service. It stores and manages user session data, such as shopping cart contents, logged-in user information, and session-related variables. Redis helps improve scalability and session management for the Magento 2 application.
+
+7. **Docker Registry**: The Docker Registry service provides a centralized location to store and distribute container images. It allows you to push and pull the PHP Docker image used by the Magento 2 service, making it available for deployment across your Kubernetes cluster.
+
+These services work together to create a Magento 2 test environment. The PHP service hosts the application, Varnish acts as a caching layer, MySQL handles the database, Elasticsearch powers the search functionality, and Redis is used for object and session caching. The Docker Registry ensures easy access to the PHP Docker image for deployment.
+
 ### License
 This Helm chart is released under the [MIT License](https://chat.openai.com/c/LICENSE).
