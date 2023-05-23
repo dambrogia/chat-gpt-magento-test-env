@@ -1,3 +1,7 @@
+This repostiory was created via chat gpt as a proof of concept.
+
+---
+
 # Magento Test Environment Helm Chart
 
 This Helm chart deploys a Magento test environment consisting of several services running on Kubernetes.
